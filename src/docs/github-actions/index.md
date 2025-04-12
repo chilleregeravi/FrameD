@@ -1,3 +1,4 @@
+
 ---
 date: 2023-09-05
 icon: github
@@ -12,7 +13,7 @@ Automate documentation validation with GitHub Actions.
 
 ## Overview
 
-DocuSanity integrates with GitHub Actions to automatically validate your documentation on every pull request and push. 
+FrameD integrates with GitHub Actions to automatically validate your documentation on every pull request and push. 
 This ensures your documentation always meets quality standards before it gets published.
 
 ## Benefits of GitHub Actions Integration
@@ -24,14 +25,14 @@ This ensures your documentation always meets quality standards before it gets pu
 
 ## Setting Up GitHub Actions
 
-To set up GitHub Actions for your DocuSanity project, you need to create a workflow file in the `.github/workflows` directory of your repository.
+To set up GitHub Actions for your FrameD project, you need to create a workflow file in the `.github/workflows` directory of your repository.
 
 ### 1. Create the workflow file
 
-Create a file named `docusanity.yml` in the `.github/workflows` directory:
+Create a file named `framed.yml` in the `.github/workflows` directory:
 
 ```yaml
-name: DocuSanity Validation
+name: FrameD Validation
 
 on:
   push:
@@ -54,27 +55,27 @@ jobs:
       - name: Install dependencies
         run: npm ci
       
-      - name: Run DocuSanity validation
-        run: npx @docusanity/cli validate
+      - name: Run FrameD validation
+        run: npx @framed/cli validate
         
       - name: Check for broken links
-        run: npx @docusanity/cli check-links
+        run: npx @framed/cli check-links
         
       - name: Validate against dictionary
-        run: npx @docusanity/cli check-dictionary
+        run: npx @framed/cli check-dictionary
         
       - name: Enforce style guide
-        run: npx @docusanity/cli check-style
+        run: npx @framed/cli check-style
 ```
 
 ### 2. Configure validation rules
 
-You can customize the validation rules by creating a `.docusanity` directory in the root of your project with the following configuration files:
+You can customize the validation rules by creating a `.framed` directory in the root of your project with the following configuration files:
 
 #### Link Validation Configuration
 
 ```javascript
-// .docusanity/links.config.js
+// .framed/links.config.js
 module.exports = {
   excludePaths: [
     '**/node_modules/**',
@@ -92,11 +93,11 @@ module.exports = {
 #### Dictionary Validation Configuration
 
 ```javascript
-// .docusanity/dictionary.config.js
+// .framed/dictionary.config.js
 module.exports = {
   customDictionaries: [
-    '.docusanity/dictionaries/technical-terms.json',
-    '.docusanity/dictionaries/product-names.json',
+    '.framed/dictionaries/technical-terms.json',
+    '.framed/dictionaries/product-names.json',
   ],
   caseSensitive: true,
   ignorePatterns: [
@@ -108,7 +109,7 @@ module.exports = {
 #### Style Guide Configuration
 
 ```javascript
-// .docusanity/style.config.js
+// .framed/style.config.js
 module.exports = {
   rules: [
     {
@@ -151,7 +152,7 @@ To generate and upload detailed reports, add the following steps to your workflo
 ```yaml
 # Add these steps to your workflow
 - name: Generate validation report
-  run: npx @docusanity/cli validate --report-file=validation-report.json
+  run: npx @framed/cli validate --report-file=validation-report.json
   
 - name: Upload validation report
   uses: actions/upload-artifact@v4

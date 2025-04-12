@@ -9,11 +9,11 @@ title: "Configuration"
 
 # Configuration
 
-DocuSanity provides flexible configuration options to customize your documentation website and validation rules. This guide covers all available options and how to use them effectively.
+FrameD provides flexible configuration options to customize your documentation website and validation rules. This guide covers all available options and how to use them effectively.
 
 ## Configuration File
 
-The main configuration file is `docusanity.config.js` located in the root of your project. This file defines global settings for your documentation web site.
+The main configuration file is `framed.config.js` located in the root of your project. This file defines global settings for your documentation web site.
 
 ### Basic Configuration
 
@@ -86,12 +86,12 @@ checks: {
   dictionary: {
     enabled: true,
     customDictionaries: [
-      '.docusanity/dictionaries/technical-terms.json',
+      '.framed/dictionaries/technical-terms.json',
     ],
   },
   styleGuide: {
     enabled: true,
-    ruleset: '.docusanity/style-rules.json',
+    ruleset: '.framed/style-rules.json',
   },
 }
 ```
@@ -114,7 +114,7 @@ github: {
 
 ### Versioning Configuration
 
-DocuSanity supports multiple versioning strategies to handle documentation for different releases of your software:
+FrameD supports multiple versioning strategies to handle documentation for different releases of your software:
 
 ```javascript
 versioning: {
@@ -165,7 +165,7 @@ versioning: {
 
 #### Versioning Strategies
 
-DocuSanity offers three strategies for versioning your documentation:
+FrameD offers three strategies for versioning your documentation:
 
 1. **Global Versioning (`strategy: 'global'`)**: 
    - The entire documentation set is versioned together
@@ -200,22 +200,22 @@ Versions marked with `isPrerelease: true` are considered unreleased or in-develo
 
 ## Environment Variables
 
-DocuSanity also supports configuration through environment variables. These take precedence over the config file settings.
+FrameD also supports configuration through environment variables. These take precedence over the config file settings.
 
-- `DOCUSANITY_BASE_PATH`: Override the base path
-- `DOCUSANITY_GITHUB_TOKEN`: GitHub token for API access
-- `DOCUSANITY_DISABLE_CHECKS`: Disable all validation checks
-- `DOCUSANITY_VERSION`: Override the current version
-- `DOCUSANITY_DISABLE_VERSIONING`: Disable versioning
+- `FRAMED_BASE_PATH`: Override the base path
+- `FRAMED_GITHUB_TOKEN`: GitHub token for API access
+- `FRAMED_DISABLE_CHECKS`: Disable all validation checks
+- `FRAMED_VERSION`: Override the current version
+- `FRAMED_DISABLE_VERSIONING`: Disable versioning
 
 ## Advanced Configuration
 
-For more advanced use cases, you can create specific configuration files in the `.docusanity` directory:
+For more advanced use cases, you can create specific configuration files in the `.framed` directory:
 
-- `.docusanity/links.config.js` - Configure link validation
-- `.docusanity/dictionary.config.js` - Configure dictionary validation
-- `.docusanity/style.config.js` - Configure style guide rules
-- `.docusanity/versions.config.js` - Configure versioning options
+- `.framed/links.config.js` - Configure link validation
+- `.framed/dictionary.config.js` - Configure dictionary validation
+- `.framed/style.config.js` - Configure style guide rules
+- `.framed/versions.config.js` - Configure versioning options
 
 ## Examples
 
@@ -301,4 +301,3 @@ module.exports = {
   },
 };
 ```
-

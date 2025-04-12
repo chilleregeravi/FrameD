@@ -12,3 +12,4 @@ export * from './file-loader';
 export * from './sidebar';
 export { getGitHubPath } from './path-utils';
 export { loadLocalizedMarkdownFile } from './localization';
+export { loadMarkdownFile } from './loader';

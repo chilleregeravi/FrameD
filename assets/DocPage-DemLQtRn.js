@@ -1,4 +1,4 @@
-import{j as e}from"./ui-DM40h5D4.js";import{L as h,u as P,r as l}from"./vendor-D0KH_tUA.js";import{c as f,A as j,e as C,g as D,G as E,a as M,V,b,d as v,f as x,l as S,u as F,i as $}from"./main-Bq5LInZq.js";import{M as A}from"./MarkdownRenderer-BPemWRLP.js";/**
+import{j as e}from"./ui-DM40h5D4.js";import{L as h,u as P,r as l}from"./vendor-D0KH_tUA.js";import{c as f,A as j,e as C,g as D,G as E,a as M,V,b,d as v,f as x,l as S,u as F,i as $}from"./main-DUGtmrB6.js";import{M as A}from"./MarkdownRenderer-RcGbfprV.js";/**
  * @license lucide-react v0.462.0 - ISC
  *
  * This source code is licensed under the ISC license.
@@ -13,4 +13,4 @@ import{j as e}from"./ui-DM40h5D4.js";import{L as h,u as P,r as l}from"./vendor-D
 
 ${c}
 `}catch(c){throw console.error(`Error loading versioned markdown file: ${t} (version: ${a})`,c),c}},Q=()=>{const t=P(),[s,r]=l.useState(""),[n,a]=l.useState(!0),[c,o]=l.useState(null),{sidebar:m}=F(),{getLocalizedPath:u}=$(),i=t.pathname.replace(/^\/docs\//,""),{version:N}=v(t.pathname),y=N||x().name,{prev:w,next:k}=G(t.pathname,m);return l.useEffect(()=>{(async()=>{try{a(!0);const d=u(i);try{const p=await g(d);r(p),o(null)}catch{const L=await g(i);r(L),o(null)}}catch(d){console.error("Failed to load doc content:",d),o(d),r("")}finally{a(!1)}})()},[i,u,y]),e.jsxs("div",{className:"pb-16",children:[e.jsx(R,{path:t.pathname}),e.jsx(U,{}),e.jsx("div",{className:"mt-6",children:n?e.jsxs("div",{className:"animate-pulse space-y-4",children:[e.jsx("div",{className:"h-8 bg-muted rounded w-3/4"}),e.jsx("div",{className:"h-4 bg-muted rounded w-1/2"}),e.jsx("div",{className:"h-4 bg-muted rounded"}),e.jsx("div",{className:"h-4 bg-muted rounded"})]}):c?e.jsxs("div",{className:"p-4 border border-red-200 bg-red-50 text-red-700 rounded-md",children:[e.jsx("h2",{className:"text-xl font-bold",children:"Error Loading Document"}),e.jsx("p",{className:"mt-2",children:c.message})]}):e.jsxs(e.Fragment,{children:[e.jsx(A,{content:s}),e.jsx("div",{className:"mt-8",children:e.jsx(I,{markdown:s,githubPath:i})})]})}),e.jsx(H,{prev:w,next:k})]})};export{Q as default};
-//# sourceMappingURL=DocPage-BDAZlW9Q.js.map
+//# sourceMappingURL=DocPage-DemLQtRn.js.map

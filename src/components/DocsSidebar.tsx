@@ -6,11 +6,14 @@ import { useSidebarStructure } from '@/utils/docs';
 import { SectionItem } from '@/utils/docs/types';
 import SidebarSection from './sidebar/SidebarSection';
 import { RefreshCw } from 'lucide-react';
+import VersionSelector from './docs/VersionSelector';
+import { getVersionConfig } from '@/utils/docs/versions';
 
 const DocsSidebar = () => {
   const { sidebar, loading, error } = useSidebarStructure();
   const [docs, setDocs] = useState<SectionItem[]>([]);
   const location = useLocation();
+  const versionConfig = getVersionConfig();
 
   // Update docs when sidebar structure changes
   useEffect(() => {
@@ -70,6 +73,11 @@ const DocsSidebar = () => {
     <aside className="w-full md:w-64 lg:w-72 shrink-0 border-r bg-background">
       <ScrollArea className="h-full py-6 pl-8 pr-6">
         <div className="space-y-6">
+          {/* Add version selector to sidebar if enabled */}
+          {versionConfig.enabled && ['sidebar', 'both'].includes(versionConfig.selector.position) && (
+            <VersionSelector position="sidebar" />
+          )}
+          
           <div>
             <h3 className="text-sm font-medium mb-2 text-muted-foreground">
               Documentation

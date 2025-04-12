@@ -1,0 +1,45 @@
+
+{
+  "enabled": true,
+  "currentVersion": "v2",
+  "versions": [
+    {
+      "name": "latest",
+      "label": "Latest (v2)",
+      "path": "latest",
+      "isDefault": true
+    },
+    {
+      "name": "v2",
+      "label": "v2.0",
+      "path": "v2"
+    },
+    {
+      "name": "v1",
+      "label": "v1.0",
+      "path": "v1"
+    },
+    {
+      "name": "next",
+      "label": "Next (Unreleased)",
+      "path": "next",
+      "isPrerelease": true
+    }
+  ],
+  "versioning": "global",
+  "selector": {
+    "position": "both",
+    "showPrerelease": true
+  },
+  "documentVersionSettings": {
+    "enabled": false,
+    "default": "inherit",
+    "allowOverride": true
+  },
+  "branchMapping": {
+    "latest": "main",
+    "v2": "v2.x",
+    "v1": "v1.x",
+    "next": "develop"
+  }
+}

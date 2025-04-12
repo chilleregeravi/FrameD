@@ -21,14 +21,24 @@ function App() {
           <Routes>
             <Route path="/" element={<Index />} />
             
-            {/* Documentation Routes */}
+            {/* Documentation Routes - with version support */}
             <Route path="/docs" element={<DocsLayout />}>
+              {/* Default route (latest version) */}
               <Route index element={
                 <Suspense fallback={<div>Loading...</div>}>
                   <DocPage />
                 </Suspense>
               } />
-              <Route path=":path/*" element={
+              
+              {/* Versioned paths */}
+              <Route path=":version/*" element={
+                <Suspense fallback={<div>Loading...</div>}>
+                  <DocPage />
+                </Suspense>
+              } />
+
+              {/* Legacy path format without explicit version */}
+              <Route path="*" element={
                 <Suspense fallback={<div>Loading...</div>}>
                   <DocPage />
                 </Suspense>

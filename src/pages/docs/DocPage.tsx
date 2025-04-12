@@ -1,12 +1,20 @@
+
 import React, { useEffect, useState } from 'react';
 import { useLocation } from 'react-router-dom';
-import { loadMarkdownFile, getNavigationLinks } from '@/utils/docs';
+import { getNavigationLinks } from '@/utils/docs';
 import { useSidebarStructure } from '@/utils/docs/sidebar';
 import MarkdownRenderer from '@/components/docs/MarkdownRenderer';
 import DocNavigation from '@/components/docs/DocNavigation';
 import DocMetadata from '@/components/DocMetadata';
 import DocBreadcrumb from '@/components/docs/DocBreadcrumb';
+import DocHeader from '@/components/docs/DocHeader';
 import { useLanguage } from '@/contexts/LanguageContext';
+import { loadMarkdownFile } from '@/utils/docs/loader';
+import { 
+  extractVersionFromPath, 
+  getVersionConfig, 
+  getCurrentVersion 
+} from '@/utils/docs/versions';
 
 const DocPage = () => {
   const location = useLocation();
@@ -15,8 +23,11 @@ const DocPage = () => {
   const [error, setError] = useState<Error | null>(null);
   const { sidebar } = useSidebarStructure();
   const { getLocalizedPath } = useLanguage();
+  const versionConfig = getVersionConfig();
 
   const path = location.pathname.replace(/^\/docs\//, '');
+  const { version } = extractVersionFromPath(location.pathname);
+  const currentVersion = version || getCurrentVersion().name;
   
   const { prev, next } = getNavigationLinks(location.pathname, sidebar);
   
@@ -26,6 +37,7 @@ const DocPage = () => {
         setIsLoading(true);
         const localizedPath = getLocalizedPath(path);
         try {
+          // Use the versioned loader
           const markdownContent = await loadMarkdownFile(localizedPath);
           setContent(markdownContent);
           setError(null);
@@ -44,11 +56,16 @@ const DocPage = () => {
     };
     
     fetchContent();
-  }, [path, getLocalizedPath]);
+  }, [path, getLocalizedPath, currentVersion]);
   
   return (
     <div className="pb-16">
       <DocBreadcrumb path={location.pathname} />
+      
+      {/* Add version selector in header when enabled */}
+      {versionConfig.enabled && (
+        <DocHeader />
+      )}
       
       <div className="mt-6">
         {isLoading ? (

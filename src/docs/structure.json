@@ -10,6 +10,41 @@
       "showOnMainPage": true
     },
     {
+      "title": "Configuration",
+      "path": "/docs/getting-started/configuration/",
+      "description": "Configure FrameD to match your project requirements.",
+      "icon": "folder",
+      "isExpanded": true,
+      "showOnMainPage": true,
+      "items": [
+        {
+          "title": "Theme",
+          "path": "/docs/getting-started/configuration/theme",
+          "description": "Customize the appearance of your documentation."
+        },
+        {
+          "title": "Validation",
+          "path": "/docs/getting-started/configuration/validation",
+          "description": "Configure validation rules for your documentation."
+        },
+        {
+          "title": "GitHub",
+          "path": "/docs/getting-started/configuration/github",
+          "description": "Connect FrameD to your GitHub repository."
+        },
+        {
+          "title": "Versioning",
+          "path": "/docs/getting-started/configuration/versioning",
+          "description": "Set up versioning for your documentation."
+        },
+        {
+          "title": "Navigation",
+          "path": "/docs/getting-started/configuration/navigation",
+          "description": "Configure custom navigation for your documentation."
+        }
+      ]
+    },
+    {
       "title": "Style Guide",
       "path": "/docs/style-guide/",
       "description": "Ensure consistent writing style across all documentation.",

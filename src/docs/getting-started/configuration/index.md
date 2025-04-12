@@ -3,7 +3,7 @@
 date: 2023-08-15
 order: 1
 icon: settings
-description: "Get detailed reports with actionable recommendations"
+description: "Configuration overview for FrameD documentation"
 title: "Configuration Overview"
 ---
 

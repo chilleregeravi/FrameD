@@ -37,9 +37,9 @@
         "links": [
           { "label": "Introduction", "href": "/docs/getting-started/" },
           { "label": "Installation", "href": "/docs/getting-started/installation" },
-          { "label": "Configuration", "href": "/docs/getting-started/configuration" },
-          { "label": "GitHub Actions", "href": "/docs/github-actions/introduction" },
-          { "label": "FAQ", "href": "/docs/getting-started/faq" }
+          { "label": "Configuration", "href": "/docs/getting-started/configuration/" },
+          { "label": "Theme", "href": "/docs/getting-started/configuration/theme" },
+          { "label": "GitHub Actions", "href": "/docs/github-actions/introduction" }
         ]
       },
       {

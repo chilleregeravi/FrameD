@@ -3,8 +3,9 @@
  */
 import sidebarStructure from '@/docs/structure.json';
 import { SidebarStructure, SectionItem, SidebarItem } from './types';
-import { generateNavStructure } from './paths';
-import { loadMarkdownFile, extractTitle, extractOrder, formatSectionTitle } from './frontmatter';
+import { generateNavStructure } from './structure-generator';
+import { loadMarkdownFile } from './file-loader';
+import { extractTitle, extractOrder, formatSectionTitle } from './frontmatter';
 
 /**
  * Sort items by order

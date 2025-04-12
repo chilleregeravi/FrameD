@@ -1,5 +1,5 @@
 
-import { loadMarkdownFile as originalLoadMarkdownFile } from './paths';
+import { loadMarkdownFile as originalLoadMarkdownFile } from './file-loader';
 import { 
   getCurrentVersion, 
   getVersionConfig, 

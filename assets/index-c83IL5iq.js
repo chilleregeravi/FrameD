@@ -9,7 +9,7 @@ order: 1
 
 # Glossary of Terms
 
-This glossary defines standard terminology to be used across all DocuSanity documentation. Consistent terminology helps ensure clarity and prevents confusion.
+This glossary defines standard terminology to be used across all FrameD documentation. Consistent terminology helps ensure clarity and prevents confusion.
 
 ## A
 
@@ -30,7 +30,7 @@ The process of converting documentation source files into a publishable format.
 A validation test performed on documentation content.
 
 ### Configuration
-Settings that control how DocuSanity operates.
+Settings that control how FrameD operates.
 
 ## D
 
@@ -86,6 +86,9 @@ A curated list of approved terms and their preferred usage.
 ### Validation
 The process of checking documentation for errors or style violations.
 
+### Versioning
+A system for managing different versions of documentation corresponding to software releases.
+
 ## Contributing to the Glossary
 
 To add or modify terms in this glossary:
@@ -94,6 +97,5 @@ To add or modify terms in this glossary:
 2. Include a justification for new terms or modifications
 3. Ensure definitions are clear and concise
 4. Follow the alphabetical ordering
-
 `;export{n as default};
-//# sourceMappingURL=index-B9yvz8JP.js.map
+//# sourceMappingURL=index-c83IL5iq.js.map

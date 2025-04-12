@@ -1,4 +1,5 @@
-const n=`---
+const n=`
+---
 date: 2023-07-15
 icon: terminal-square
 description: "Run validation checks locally during development"
@@ -8,9 +9,9 @@ order: 2
 
 # Installation
 
-Setting up DocuSanity is simple and only takes a few minutes. Follow the steps below to get started.
+Setting up FrameD is simple and only takes a few minutes. Follow the steps below to get started.
 
-> **Tip:** When installing DocuSanity, make sure you have the latest Node.js version for optimal performance and compatibility.
+> **Tip:** When installing FrameD, make sure you have the latest Node.js version for optimal performance and compatibility.
 
 ## Prerequisites
 
@@ -22,20 +23,20 @@ Before installing FrameD, make sure you have the following:
 
 ## Quick Start
 
-The fastest way to get started with DocuSanity is to use the CLI tool:
+The fastest way to get started with FrameD is to use the CLI tool:
 
 \`\`\`bash
-npm install -g @docusanity/cli
-docusanity create my-docs
+npm install -g @framed/cli
+framed create my-docs
 cd my-docs
 npm start
 \`\`\`
 
-This will create a new DocuSanity project in the \`my-docs\` directory and start the development server.
+This will create a new FrameD project in the \`my-docs\` directory and start the development server.
 
 ## Manual Installation
 
-If you prefer to set up DocuSanity manually, follow these steps:
+If you prefer to set up FrameD manually, follow these steps:
 
 1. Create a new directory for your project:
 
@@ -50,16 +51,16 @@ cd my-docs
 npm init -y
 \`\`\`
 
-3. Install DocuSanity:
+3. Install FrameD:
 
 \`\`\`bash
-npm install @docusanity/core @docusanity/validator
+npm install @framed/core @framed/validator
 \`\`\`
 
 4. Create a configuration file:
 
 \`\`\`bash
-touch docusanity.config.js
+touch framed.config.js
 \`\`\`
 
 5. Add the following to your configuration file:
@@ -86,7 +87,7 @@ echo "# Welcome to My Documentation" > docs/index.md
 8. Start the development server:
 
 \`\`\`bash
-npx docusanity start
+npx framed start
 \`\`\`
 
 ## Project Structure
@@ -97,7 +98,7 @@ After installation, your project structure should look like this:
 my-docs/
 ├── docs/
 │   └── index.md
-├── docusanity.config.js
+├── framed.config.js
 ├── package.json
 └── node_modules/
 \`\`\`
@@ -106,10 +107,11 @@ You can add more documentation files to the \`docs\` directory as needed.
 
 ## Next Steps
 
-Now that you have DocuSanity installed, you can:
+Now that you have FrameD installed, you can:
 
-- [Configure your project](/docs/configuration)
-- Learn about [link validation](/docs/link-validation)
+- [Configure your project](/docs/getting-started/configuration)
+- Learn about [link validation](/docs/github-actions/link-validation)
 - Set up [GitHub Actions](/docs/github-actions) for continuous validation
+- Explore [versioning options](/docs/getting-started/configuration#versioning-configuration) for multi-version documentation
 `;export{n as default};
-//# sourceMappingURL=installation-mdUs_pXA.js.map
+//# sourceMappingURL=installation-C88y-S8E.js.map

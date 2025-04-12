@@ -3,7 +3,7 @@ const n=`
 date: 2023-08-15
 order: 1
 icon: settings
-description: "Get detailed reports with actionable recommendations"
+description: "Configuration overview for FrameD documentation"
 title: "Configuration Overview"
 ---
 
@@ -79,4 +79,4 @@ For advanced use cases, you can create specific configuration files in the \`.fr
 - \`.framed/style.config.js\` - Configure style guide rules
 - \`.framed/versions.config.js\` - Configure versioning options
 `;export{n as default};
-//# sourceMappingURL=index-BW3wL4Fm.js.map
+//# sourceMappingURL=index-iiQP_fZB.js.map

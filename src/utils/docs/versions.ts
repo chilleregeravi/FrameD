@@ -9,6 +9,16 @@ export interface Version {
   isPrerelease?: boolean;
 }
 
+export interface DocumentLevelSettings {
+  enabled: boolean;
+  default: 'inherit' | 'latest';
+  allowOverride: boolean;
+}
+
+export interface BranchMappingConfig {
+  [version: string]: string;
+}
+
 export interface VersionConfig {
   enabled: boolean;
   currentVersion: string;
@@ -24,6 +34,8 @@ export interface VersionConfig {
     position: 'header' | 'sidebar' | 'both';
     showPrerelease: boolean;
   };
+  documentVersionSettings: DocumentLevelSettings;
+  branchMapping: BranchMappingConfig;
 }
 
 // Default configuration
@@ -37,7 +49,13 @@ export const defaultVersionConfig: VersionConfig = {
   selector: {
     position: 'header',
     showPrerelease: false
-  }
+  },
+  documentVersionSettings: {
+    enabled: false,
+    default: 'inherit',
+    allowOverride: true
+  },
+  branchMapping: {}
 };
 
 // This would typically be loaded from a configuration file or API
@@ -56,6 +74,17 @@ export const getVersionConfig = (): VersionConfig => {
     selector: {
       position: 'both',
       showPrerelease: true
+    },
+    documentVersionSettings: {
+      enabled: false,
+      default: 'inherit',
+      allowOverride: true
+    },
+    branchMapping: {
+      'latest': 'main',
+      'v2': 'v2.x',
+      'v1': 'v1.x',
+      'next': 'develop'
     }
   };
 };
@@ -99,8 +128,16 @@ export const getCurrentVersion = (): Version => {
 
 // Check if document has a specific version
 export const hasVersion = (docPath: string, version: string): boolean => {
-  // This would typically check if the document exists in the specified version
-  // For demonstration, we'll assume all docs have all versions
+  const config = getVersionConfig();
+  
+  // For document-level versioning, check if this document includes the specified version
+  if (config.versioning === 'document' && config.documentVersionSettings.enabled) {
+    // This would typically check document-specific metadata
+    // For demonstration, we'll assume all docs have all versions
+    return true;
+  }
+  
+  // For global versioning, all documents have all versions
   return true;
 };
 
@@ -163,24 +200,50 @@ export const getDocumentVersions = (path: string): Version[] => {
   const config = getVersionConfig();
   const allVersions = getAvailableVersions();
   
-  if (!config.enabled || config.versioning !== 'document') {
+  if (!config.enabled) {
     return allVersions;
   }
   
-  // For document-level versioning, we'd check which versions are available for this specific document
-  // This is a simplified implementation
-  return allVersions.filter(version => hasVersion(path, version.name));
+  if (config.versioning === 'document' && config.documentVersionSettings.enabled) {
+    // For document-level versioning, filter versions based on document metadata
+    return allVersions.filter(version => hasVersion(path, version.name));
+  }
+  
+  // For global versioning, all documents have all versions
+  return allVersions;
 };
 
 // For branch-based versioning
 export const getBranchForVersion = (version: string): string => {
-  // Map versions to branch names
-  const branchMap: Record<string, string> = {
-    'latest': 'main',
-    'v2': 'v2.x',
-    'v1': 'v1.x',
-    'next': 'develop'
-  };
+  const config = getVersionConfig();
+  return config.branchMapping[version] || 'main';
+};
+
+// Check if document-level versioning is active
+export const isDocumentLevelVersioning = (): boolean => {
+  const config = getVersionConfig();
+  return config.enabled && 
+         config.versioning === 'document' && 
+         config.documentVersionSettings.enabled;
+};
+
+// Check if global versioning is active
+export const isGlobalVersioning = (): boolean => {
+  const config = getVersionConfig();
+  return config.enabled && config.versioning === 'global';
+};
+
+// Check if branch-based versioning is active
+export const isBranchVersioning = (): boolean => {
+  const config = getVersionConfig();
+  return config.enabled && config.versioning === 'branch';
+};
+
+// Set versioning strategy
+export const setVersioningStrategy = (strategy: 'global' | 'document' | 'branch'): void => {
+  // This would typically update the configuration in a real application
+  console.log(`Setting versioning strategy to: ${strategy}`);
   
-  return branchMap[version] || 'main';
+  // In a real application, we would update the configuration here
+  // For now, we'll just log the change
 };

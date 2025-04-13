@@ -4,7 +4,10 @@ import {
   getCurrentVersion, 
   getVersionConfig, 
   extractVersionFromPath, 
-  getBranchForVersion
+  getBranchForVersion,
+  isDocumentLevelVersioning,
+  isGlobalVersioning,
+  isBranchVersioning
 } from './versions';
 
 /**
@@ -23,30 +26,61 @@ export const loadMarkdownFile = async (path: string): Promise<string> => {
   const version = pathVersion || getCurrentVersion().name;
   
   try {
-    // For branch-based versioning, we would use different source directories
-    // For this demo, we'll use the original loader but in a real system,
-    // this would load from different sources based on version/branch
-    if (config.versioning === 'branch') {
-      const branch = getBranchForVersion(version);
-      console.log(`Loading from branch: ${branch} for version ${version}`);
-      // This would use a different source based on branch
-    }
-    
-    // For demonstration, we'll add a version indicator to the content
-    const content = await originalLoadMarkdownFile(path);
-    
-    // Don't modify for the default version
-    const currentVersion = getCurrentVersion();
-    if (version === currentVersion.name || version === 'latest') {
-      return content;
-    }
-    
-    // Add version indicator for non-default versions
-    return `
+    // Handle different versioning strategies
+    if (isGlobalVersioning()) {
+      // Global versioning: entire documentation set shares the same version
+      console.log(`Loading with global versioning: ${version}`);
+      
+      // For this demo, we'll use the original loader but add a version indicator
+      const content = await originalLoadMarkdownFile(path);
+      
+      // Don't modify for the default version
+      const currentVersion = getCurrentVersion();
+      if (version === currentVersion.name || version === 'latest') {
+        return content;
+      }
+      
+      // Add version indicator for non-default versions
+      return `
 > **Note:** You are viewing the documentation for version **${version}**.
 
 ${content}
 `;
+    } 
+    else if (isDocumentLevelVersioning()) {
+      // Document-level versioning: each document may have specific versions
+      console.log(`Loading with document-level versioning for path: ${path}`);
+      
+      // This would typically check document metadata to see if this version exists
+      // For this demo, we'll use the original loader but add a version indicator
+      const content = await originalLoadMarkdownFile(path);
+      
+      // Add document-specific version indicator
+      return `
+> **Note:** You are viewing the document-specific version **${version}** of this page.
+
+${content}
+`;
+    }
+    else if (isBranchVersioning()) {
+      // Branch-based versioning: different versions are in different branches
+      const branch = getBranchForVersion(version);
+      console.log(`Loading from branch: ${branch} for version ${version}`);
+      
+      // This would typically load from a different source based on branch
+      // For this demo, we'll use the original loader but add a branch indicator
+      const content = await originalLoadMarkdownFile(path);
+      
+      // Add branch indicator
+      return `
+> **Note:** You are viewing the documentation from branch **${branch}** (version **${version}**).
+
+${content}
+`;
+    }
+    
+    // Default fallback - just load the file without version info
+    return originalLoadMarkdownFile(path);
   } catch (error) {
     console.error(`Error loading versioned markdown file: ${path} (version: ${version})`, error);
     throw error;

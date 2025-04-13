@@ -13,7 +13,10 @@ import {
   getCurrentVersion,
   extractVersionFromPath,
   getVersionedPath,
-  getVersionConfig
+  getVersionConfig,
+  isDocumentLevelVersioning,
+  isGlobalVersioning,
+  isBranchVersioning
 } from '@/utils/docs/versions';
 import { Tag } from 'lucide-react';
 
@@ -43,9 +46,30 @@ const VersionSelector: React.FC<VersionSelectorProps> = ({ position = 'header' }
     const newVersion = versions.find(v => v.name === newVersionName);
     if (!newVersion) return;
     
-    // Navigate to the same page but with the new version
-    const newPath = getVersionedPath(basePath, newVersion.name);
-    navigate(newPath);
+    if (isGlobalVersioning() || isBranchVersioning()) {
+      // For global or branch versioning, navigate to the same page but with the new version in the URL
+      const newPath = getVersionedPath(basePath, newVersion.name);
+      navigate(newPath);
+    } 
+    else if (isDocumentLevelVersioning()) {
+      // For document-level versioning, use query parameter for version
+      const searchParams = new URLSearchParams(location.search);
+      searchParams.set('version', newVersion.name);
+      navigate(`${location.pathname}?${searchParams.toString()}`);
+    }
+  };
+  
+  // Get the current version from either the path or query parameter
+  const getCurrentDisplayVersion = () => {
+    if (isDocumentLevelVersioning()) {
+      // For document-level versioning, check query parameter
+      const searchParams = new URLSearchParams(location.search);
+      const queryVersion = searchParams.get('version');
+      return queryVersion || currentVersion.name;
+    }
+    
+    // For global and branch versioning, use path version
+    return pathVersion || currentVersion.name;
   };
   
   // Different styles based on position
@@ -56,7 +80,7 @@ const VersionSelector: React.FC<VersionSelectorProps> = ({ position = 'header' }
   return (
     <div className={className}>
       <Select
-        value={pathVersion || currentVersion.name}
+        value={getCurrentDisplayVersion()}
         onValueChange={handleVersionChange}
       >
         <SelectTrigger className="h-8 text-xs">

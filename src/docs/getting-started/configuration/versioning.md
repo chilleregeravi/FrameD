@@ -47,7 +47,7 @@ module.exports = {
 
 ## Versioning Strategies
 
-FrameD offers three strategies for versioning your documentation:
+FrameD offers three mutually exclusive strategies for versioning your documentation. You must select one approach:
 
 ```javascript
 versioning: {
@@ -57,12 +57,35 @@ versioning: {
 }
 ```
 
+### Choosing a Versioning Strategy
+
+Each versioning strategy has specific advantages:
+
+| Strategy | Best For | URL Format | Complexity |
+|----------|----------|------------|------------|
+| Global | Documentation that evolves together | `/docs/[version]/[path]` | Simple |
+| Document | Documentation with varying update cycles | `/docs/[path]?version=[version]` | Medium |
+| Branch | Documentation tied to code branches | `/docs/[version]/[path]` | Complex |
+
+**Important:** You can only enable one strategy at a time. The configuration enforces mutual exclusivity.
+
 ### 1. Global Versioning (strategy: 'global')
 
 - The entire documentation set is versioned together
 - All documents share the same version at any given time
 - Users can switch between versions via a version selector
 - URL structure: `/docs/[version]/[path]`
+
+```javascript
+versioning: {
+  enabled: true,
+  strategy: 'global',
+  // Other versioning settings...
+  documentVersionSettings: {
+    enabled: false,        // Must be disabled for global versioning
+  }
+}
+```
 
 ### 2. Document-level Versioning (strategy: 'document')
 
@@ -71,15 +94,14 @@ versioning: {
 - Good for documentation that evolves at different rates
 - URL structure: `/docs/[path]?version=[version]`
 
-Document-level versioning settings:
-
 ```javascript
 versioning: {
+  enabled: true,
   strategy: 'document',
-  documentLevel: {              // Document-level versioning settings
-    enabled: true,
-    default: 'inherit',         // Default versioning for documents ('inherit', 'latest')
-    allowOverride: true         // Allow documents to override their version
+  documentVersionSettings: {   // Document-level versioning settings
+    enabled: true,             // Must be enabled for document-level versioning
+    default: 'inherit',        // Default versioning for documents ('inherit', 'latest')
+    allowOverride: true        // Allow documents to override their version
   }
 }
 ```
@@ -90,14 +112,15 @@ versioning: {
 - Each branch contains a complete set of documentation
 - CI/CD processes build documentation from each branch
 - Great for maintaining documentation alongside code
-- Uses the `branchMapping` configuration to map versions to branches
-
-Branch mapping configuration:
 
 ```javascript
 versioning: {
+  enabled: true,
   strategy: 'branch',
-  branchMapping: {              // Branch mapping for branch-based versioning
+  documentVersionSettings: {
+    enabled: false,           // Must be disabled for branch versioning
+  },
+  branchMapping: {            // Branch mapping for branch-based versioning
     'latest': 'main',
     'v2': 'v2.x',
     'v1': 'v1.x',
@@ -128,24 +151,27 @@ Available positions:
 
 Versions marked with `isPrerelease: true` are considered unreleased or in-development documentation. You can control their visibility with the `showPrerelease` option.
 
-## Example: Multi-version Documentation
+## Example: Global Versioning
 
 ```javascript
 module.exports = {
   title: 'API Documentation',
   versioning: {
     enabled: true,
+    strategy: 'global',               // Global versioning for entire site
     currentVersion: 'v2',
     versions: [
       { name: 'v1', label: 'Version 1.0', path: 'v1' },
       { name: 'v2', label: 'Version 2.0', path: 'v2', isDefault: true },
       { name: 'v3', label: 'Version 3.0 (Beta)', path: 'v3', isPrerelease: true }
     ],
-    strategy: 'global',
     selector: {
       position: 'header',
       showPrerelease: true,
     },
+    documentVersionSettings: {
+      enabled: false,               // Disabled for global versioning
+    }
   },
 };
 ```
@@ -156,15 +182,15 @@ module.exports = {
 module.exports = {
   versioning: {
     enabled: true,
-    strategy: 'document',
+    strategy: 'document',            // Document-level versioning
     currentVersion: 'v2',
     versions: [
       { name: 'v1', label: 'Version 1.0', path: 'v1' },
       { name: 'v2', label: 'Version 2.0', path: 'v2', isDefault: true },
       { name: 'v3', label: 'Version 3.0 (Beta)', path: 'v3', isPrerelease: true }
     ],
-    documentLevel: {
-      enabled: true,
+    documentVersionSettings: {
+      enabled: true,                // Enabled for document-level versioning
       default: 'inherit',
       allowOverride: true
     }
@@ -178,13 +204,16 @@ module.exports = {
 module.exports = {
   versioning: {
     enabled: true,
-    strategy: 'branch',
+    strategy: 'branch',              // Branch-based versioning
     currentVersion: 'latest',
     versions: [
       { name: 'latest', label: 'Latest', path: 'latest', isDefault: true },
       { name: 'stable', label: 'Stable', path: 'stable' },
       { name: 'beta', label: 'Beta', path: 'beta', isPrerelease: true }
     ],
+    documentVersionSettings: {
+      enabled: false,               // Disabled for branch versioning
+    },
     branchMapping: {
       'latest': 'main',
       'stable': 'release',

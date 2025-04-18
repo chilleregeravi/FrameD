@@ -1,224 +1,137 @@
+
 ---
 date: 2023-08-15
-order: 5
-icon: git-branch
-description: "Configure versioning for multi-version documentation"
+order: 4
+icon: file-text
+description: "Configure versioning strategies for your documentation"
 title: "Versioning Configuration"
 ---
 
-# Versioning Configuration
+# Documentation Versioning
 
-FrameD supports multiple versioning strategies to handle documentation for different releases of your software.
-
-## Basic Versioning Configuration
-
-```javascript
-module.exports = {
-  versioning: {
-    enabled: true,                // Enable versioning
-    currentVersion: 'v2',         // Current active version
-    versions: [                   // Available versions
-      { 
-        name: 'latest',           // Version identifier 
-        label: 'Latest (v2)',     // Display label
-        path: 'latest',           // URL path segment
-        isDefault: true           // Is this the default version?
-      },
-      { 
-        name: 'v2', 
-        label: 'v2.0', 
-        path: 'v2' 
-      },
-      { 
-        name: 'v1', 
-        label: 'v1.0', 
-        path: 'v1' 
-      },
-      { 
-        name: 'next', 
-        label: 'Next (Unreleased)', 
-        path: 'next', 
-        isPrerelease: true        // Mark as prerelease
-      }
-    ],
-  }
-};
-```
+FrameD supports multiple versioning strategies to help you manage documentation for different versions of your software. You can choose between global documentation versioning or document-level versioning, but not both simultaneously.
 
 ## Versioning Strategies
 
-FrameD offers three mutually exclusive strategies for versioning your documentation. You must select one approach:
+### Global Versioning
 
-```javascript
-versioning: {
-  enabled: true,
-  strategy: 'global',          // Versioning strategy (global, document, branch)
-  // ... other versioning options
+Global versioning applies the same version to your entire documentation set. This is useful when:
+
+- Your documentation changes as a whole with each software release
+- You want to maintain separate documentation sets for major versions
+- You prefer a simpler versioning approach
+
+Example configuration for global versioning:
+
+```json
+{
+  "enabled": true,
+  "versioning": "global",
+  "currentVersion": "v2",
+  "versions": [
+    { "name": "latest", "label": "Latest (v2)", "path": "latest", "isDefault": true },
+    { "name": "v2", "label": "v2.0", "path": "v2" },
+    { "name": "v1", "label": "v1.0", "path": "v1" }
+  ]
 }
 ```
 
-### Choosing a Versioning Strategy
+### Document-Level Versioning
 
-Each versioning strategy has specific advantages:
+Document-level versioning allows individual documents to have their own versions. This is useful when:
 
-| Strategy | Best For | URL Format | Complexity |
-|----------|----------|------------|------------|
-| Global | Documentation that evolves together | `/docs/[version]/[path]` | Simple |
-| Document | Documentation with varying update cycles | `/docs/[path]?version=[version]` | Medium |
-| Branch | Documentation tied to code branches | `/docs/[version]/[path]` | Complex |
+- Different parts of your documentation evolve independently
+- You need to maintain version-specific content for individual features
+- Your documentation structure is complex with varying update cycles
 
-**Important:** You can only enable one strategy at a time. The configuration enforces mutual exclusivity.
+Example configuration for document-level versioning:
 
-### 1. Global Versioning (strategy: 'global')
-
-- The entire documentation set is versioned together
-- All documents share the same version at any given time
-- Users can switch between versions via a version selector
-- URL structure: `/docs/[version]/[path]`
-
-```javascript
-versioning: {
-  enabled: true,
-  strategy: 'global',
-  // Other versioning settings...
-  documentVersionSettings: {
-    enabled: false,        // Must be disabled for global versioning
-  }
-}
-```
-
-### 2. Document-level Versioning (strategy: 'document')
-
-- Individual documents can have their own versions
-- Documents can specify which versions they are available in
-- Good for documentation that evolves at different rates
-- URL structure: `/docs/[path]?version=[version]`
-
-```javascript
-versioning: {
-  enabled: true,
-  strategy: 'document',
-  documentVersionSettings: {   // Document-level versioning settings
-    enabled: true,             // Must be enabled for document-level versioning
-    default: 'inherit',        // Default versioning for documents ('inherit', 'latest')
-    allowOverride: true        // Allow documents to override their version
+```json
+{
+  "enabled": true,
+  "versioning": "document",
+  "currentVersion": "v2",
+  "documentVersionSettings": {
+    "enabled": true,
+    "default": "inherit",
+    "allowOverride": true
   }
 }
 ```
 
-### 3. Branch-based Versioning (strategy: 'branch')
+> **Note:** You must choose either global or document-level versioning. These strategies cannot be used together.
 
-- Documentation versions are mapped to git branches
-- Each branch contains a complete set of documentation
-- CI/CD processes build documentation from each branch
-- Great for maintaining documentation alongside code
+## Version Configuration
 
-```javascript
-versioning: {
-  enabled: true,
-  strategy: 'branch',
-  documentVersionSettings: {
-    enabled: false,           // Must be disabled for branch versioning
-  },
-  branchMapping: {            // Branch mapping for branch-based versioning
-    'latest': 'main',
-    'v2': 'v2.x',
-    'v1': 'v1.x',
-    'next': 'develop'
+The version configuration is managed through the `version-config.json` file:
+
+| Option | Type | Description |
+|--------|------|-------------|
+| `enabled` | boolean | Enable/disable versioning |
+| `versioning` | "global" \| "document" | The versioning strategy to use |
+| `currentVersion` | string | The default version to display |
+| `versions` | array | List of available versions |
+| `selector.position` | "header" \| "sidebar" \| "both" | Where to display the version selector |
+| `selector.showPrerelease` | boolean | Whether to show pre-release versions |
+
+### Version Object Structure
+
+Each version in the `versions` array has the following properties:
+
+```json
+{
+  "name": "v2",
+  "label": "Version 2.0",
+  "path": "v2",
+  "isDefault": false,
+  "isPrerelease": false
+}
+```
+
+## Environment Variables
+
+You can override version settings using environment variables:
+
+- `FRAMED_VERSION`: Override the current version
+- `FRAMED_DISABLE_VERSIONING`: Disable versioning entirely
+
+## Usage Examples
+
+### Switching Between Strategies
+
+To switch from global to document-level versioning:
+
+1. Update your version configuration:
+```json
+{
+  "versioning": "document",
+  "documentVersionSettings": {
+    "enabled": true
   }
 }
 ```
 
-## Version Selector Configuration
+2. Restart your documentation server for changes to take effect.
 
-The version selector can be displayed in different locations:
+### Adding a New Version
 
-```javascript
-versioning: {
-  selector: {
-    position: 'both',          // Where to display version selector (header, sidebar, both)
-    showPrerelease: true       // Show prerelease versions in selector
-  }
+To add a new version to global versioning:
+
+```json
+{
+  "versions": [
+    { "name": "latest", "label": "Latest (v3)", "path": "latest", "isDefault": true },
+    { "name": "v3", "label": "v3.0", "path": "v3" },
+    { "name": "v2", "label": "v2.0", "path": "v2" }
+  ]
 }
 ```
 
-Available positions:
-- `position: 'header'` - Show in the top navigation bar
-- `position: 'sidebar'` - Show in the navigation sidebar
-- `position: 'both'` - Show in both locations
+## Best Practices
 
-## Prerelease Versions
+1. Choose the appropriate strategy based on your documentation structure
+2. Use clear version labels that match your software versions
+3. Keep the version selector position consistent
+4. Document version-specific features clearly
+5. Consider using pre-release versions for beta documentation
 
-Versions marked with `isPrerelease: true` are considered unreleased or in-development documentation. You can control their visibility with the `showPrerelease` option.
-
-## Example: Global Versioning
-
-```javascript
-module.exports = {
-  title: 'API Documentation',
-  versioning: {
-    enabled: true,
-    strategy: 'global',               // Global versioning for entire site
-    currentVersion: 'v2',
-    versions: [
-      { name: 'v1', label: 'Version 1.0', path: 'v1' },
-      { name: 'v2', label: 'Version 2.0', path: 'v2', isDefault: true },
-      { name: 'v3', label: 'Version 3.0 (Beta)', path: 'v3', isPrerelease: true }
-    ],
-    selector: {
-      position: 'header',
-      showPrerelease: true,
-    },
-    documentVersionSettings: {
-      enabled: false,               // Disabled for global versioning
-    }
-  },
-};
-```
-
-## Example: Document-level Versioning
-
-```javascript
-module.exports = {
-  versioning: {
-    enabled: true,
-    strategy: 'document',            // Document-level versioning
-    currentVersion: 'v2',
-    versions: [
-      { name: 'v1', label: 'Version 1.0', path: 'v1' },
-      { name: 'v2', label: 'Version 2.0', path: 'v2', isDefault: true },
-      { name: 'v3', label: 'Version 3.0 (Beta)', path: 'v3', isPrerelease: true }
-    ],
-    documentVersionSettings: {
-      enabled: true,                // Enabled for document-level versioning
-      default: 'inherit',
-      allowOverride: true
-    }
-  }
-};
-```
-
-## Example: Branch-based Versioning
-
-```javascript
-module.exports = {
-  versioning: {
-    enabled: true,
-    strategy: 'branch',              // Branch-based versioning
-    currentVersion: 'latest',
-    versions: [
-      { name: 'latest', label: 'Latest', path: 'latest', isDefault: true },
-      { name: 'stable', label: 'Stable', path: 'stable' },
-      { name: 'beta', label: 'Beta', path: 'beta', isPrerelease: true }
-    ],
-    documentVersionSettings: {
-      enabled: false,               // Disabled for branch versioning
-    },
-    branchMapping: {
-      'latest': 'main',
-      'stable': 'release',
-      'beta': 'develop'
-    }
-  }
-};
-```
